@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book List</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bitter:wght@700&display=swap');
+        body {
+            color: #333;
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+        }
+        h1, nav {
+            font-family: 'Bitter', serif;
+        }
+        table {
+            border: 1px solid #ababab;
+            margin: 0 auto;
+            padding: 0.5rem;
+            & td, th {
+                padding: 0.25rem 0.5rem;
+            }
+            & caption {
+                font-weight: bold;
+                margin-bottom: 0.25rem;
+            }
+            & thead {
+                background: #333;
+                color: #fff;
+            }
+            & tbody tr:nth-child(even) {
+                background: #efefef;
+            }
+            & tbody tr:hover {
+                background: #b0d8b0;
+                border-collapse: collapse;
+                cursor: pointer;
+            }
+            & tbody td:nth-child(1),
+            & tbody td:nth-child(2) {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+   <header>
+        <navigation-bar current-page="about"></navigation-bar>
+   </header>
+   <main>
+        <h1>Book List</h1>
+        <section>
+            <table>
+                <caption>10 Popular Books</caption>
+                <thead>
+                    <tr>
+                        <th>Author</th>
+                        <th>Title</th>
+                        <th>Page Count</th>
+                        <th>First Published</th>
+                        <th>ISBN</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Haruki Murakami</td>
+                        <td>Norwegian Wood</td>
+                        <td>296</td>
+                        <td>1987</td>
+                        <td>978-0-375-71323-7</td>
+                    </tr>
+                    <tr>
+                        <td>Chimamanda Ngozi Adichie</td>
+                        <td>Half of a Yellow Sun</td>
+                        <td>543</td>
+                        <td>2006</td>
+                        <td>978-0-00-720028-3</td>
+                    </tr>
+                    <tr>
+                        <td>J.K. Rowling</td>
+                        <td>Harry Potter and the Philosopher's Stone</td>
+                        <td>223</td>
+                        <td>1997</td>
+                        <td>0-7475-3269-9</td>
+                    </tr>
+                    <tr>
+                        <td>Gabriel Garcia Marquez</td>
+                        <td>One Hundred Years of Solitude</td>
+                        <td>417</td>
+                        <td>1967</td>
+                        <td>978-0-06-088328-7</td>
+                    </tr>
+                    <tr>
+                        <td>George Orwell</td>
+                        <td>1984</td>
+                        <td>328</td>
+                        <td>1949</td>
+                        <td>978-0-452-28423-4</td>
+                    </tr>
+                    <tr>
+                        <td>Jane Austen</td>
+                        <td>Pride and Prejudice</td>
+                        <td>279</td>
+                        <td>1813</td>
+                        <td>978-0-19-953556-9</td>
+                    <tr>
+                        <td>F. Scott Fitzgerald</td>
+                        <td>The Great Gatsby</td>
+                        <td>180</td>
+                        <td>1925</td>
+                        <td>978-0-7432-7356-5</td>
+                    </tr>
+                    <tr>
+                        <td>Khaled Hosseini</td>
+                        <td>The Kite Runner</td>
+                        <td>372</td>
+                        <td>2003</td>
+                        <td>978-1-59448-000-3</td>
+                    </tr>
+                    <tr>
+                        <td>Margaret Atwood</td>
+                        <td>The Handmaid's Tale</td>
+                        <td>311</td>
+                        <td>1985</td>
+                        <td>978-0-385-49081-8</td>
+                    </tr>
+                    <tr>
+                        <td>Ernest Hemingway</td>
+                        <td>The Old Man and the Sea</td>
+                        <td>127</td>
+                        <td>1952</td>
+                        <td>978-0-684-80122-3</td>
+                    </tr>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+   </main> 
+   <script>
+    class NavigationBar extends HTMLElement {
+        constructor() {
+            super();
+            this.attachShadow({ mode: 'open' });
+        }
+
+        connectedCallback() {
+            const currentPage = this.getAttribute('current-page') || '';
+            this.render(currentPage);
+        }
+
+        render(currentPage) {
+            this.shadowRoot.innerHTML = `
+            <style>
+                nav {
+                    display: flex;
+                    background-color: #333;
+                    padding: 1rem;
+                }
+                a {
+                    color: white;
+                    padding-bottom: 0.4rem;
+                    padding-inline: 1rem;
+                    text-decoration: none;
+                }
+                .active {
+                    border-bottom: 3px solid skyblue;
+                }
+            </style>
+            <nav>
+                <a href="/" class="${currentPage === 'home' ? 'active' : ''}">Home</a>
+                <a href="/about" class="${currentPage === 'about' ? 'active' : ''}">About</a>
+                <a href="/contact" class="${currentPage === 'contact' ? 'active' : ''}">Contact</a>
+            </nav>
+            `;
+        }
+
+        static get observedAttributes() {
+            return ['current-page'];
+        }
+
+        attributeChangedCallback(name, oldValue, newValue) {
+            if (name === 'current-page') {
+            this.render(newValue);
+            }
+        }
+    }
+    customElements.define('navigation-bar', NavigationBar);
+   </script>
+</body>
+</html>
